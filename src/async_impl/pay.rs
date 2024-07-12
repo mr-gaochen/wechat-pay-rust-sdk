@@ -1,3 +1,4 @@
+use crate::debug;
 use crate::error::PayError;
 use crate::model::AppParams;
 use crate::model::H5Params;
@@ -15,7 +16,6 @@ use crate::response::ResponseTrait;
 use crate::response::{CertificateResponse, NativeResponse};
 use reqwest::header::{HeaderMap, REFERER};
 use serde_json::{Map, Value};
-use crate::{debug};
 
 impl WechatPay {
     pub(crate) async fn pay<P: ParamsTrait, R: ResponseTrait>(
@@ -102,7 +102,7 @@ impl WechatPay {
             .await
             .map(|mut result: MicroResponse| {
                 if let Some(prepay_id) = &result.prepay_id {
-                    result.sign_data = Some(self.mut_sign_data("", prepay_id));
+                    result.sign_data = Some(self.mut_sign_data("prepay_id=", prepay_id));
                 }
                 result
             })
@@ -117,8 +117,8 @@ impl WechatPay {
         self.get_pay(url).await
     }
     pub async fn get_weixin<S>(&self, h5_url: S, referer: S) -> Result<Option<String>, PayError>
-        where
-            S: AsRef<str>,
+    where
+        S: AsRef<str>,
     {
         let client = reqwest::Client::new();
         let mut headers = HeaderMap::new();
