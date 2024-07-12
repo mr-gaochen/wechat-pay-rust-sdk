@@ -9,7 +9,6 @@ use reqwest::header::{HeaderMap, ACCEPT, AUTHORIZATION, CONTENT_TYPE, USER_AGENT
 use rsa::pkcs8::DecodePublicKey;
 use rsa::sha2::{Digest, Sha256};
 use rsa::{Pkcs1v15Sign, RsaPublicKey};
-use tracing::info;
 use uuid::Uuid;
 
 #[derive(Debug)]
@@ -126,7 +125,7 @@ pub trait WechatPayTrait {
         );
         let signed_str = self.rsa_sign(format!("{app_id}\n{now_time}\n{nonce_str}\n{ext_str}\n"));
 
-        info!("signed_str:{}", signed_str);
+        println!("signed_str:{}", signed_str);
         SignData {
             app_id,
             sign_type: "RSA".into(),
