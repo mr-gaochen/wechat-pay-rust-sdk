@@ -23,7 +23,7 @@ pub struct JsapiResponse {
     pub sign_data: Option<SignData>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct SignData {
     pub app_id: String,
     pub sign_type: String,
@@ -47,7 +47,7 @@ pub struct AppResponse {
 
 impl ResponseTrait for AppResponse {}
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct MicroResponse {
     pub code: Option<String>,
     pub message: Option<String>,
